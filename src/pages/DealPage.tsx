@@ -1,7 +1,8 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Clock, Plane, Check } from 'lucide-react';
+import { ArrowLeft, Clock, Plane, Check, AlertCircle, Luggage, Calendar } from 'lucide-react';
 import { deals } from '../data/deals';
+import { cityToCountry } from '../utils/countryFlags';
 
 export function DealPage() {
   const { id } = useParams();
@@ -47,9 +48,12 @@ export function DealPage() {
             <div className="flex justify-between items-start">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  {deal.from} to {deal.to}
+                  {deal.from} {cityToCountry[deal.from]} to {deal.to} {cityToCountry[deal.to]}
                 </h1>
-                <p className="text-gray-600 mt-2">{deal.date}</p>
+                <div className="flex items-center mt-2 text-gray-600">
+                  <Calendar className="h-5 w-5 mr-2" />
+                  <span>{deal.travelDates}</span>
+                </div>
               </div>
               <div className="text-right">
                 <p className="text-4xl font-bold text-indigo-600">€{deal.price}</p>
@@ -74,14 +78,14 @@ export function DealPage() {
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-2xl font-bold text-gray-900">{deal.departureTime}</p>
-                  <p className="text-gray-600">{deal.from}</p>
+                  <p className="text-gray-600">{deal.from} {cityToCountry[deal.from]}</p>
                 </div>
                 <div className="flex-1 mx-4 border-t-2 border-gray-300 border-dashed relative">
                   <Plane className="h-4 w-4 text-gray-400 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2" />
                 </div>
                 <div className="text-right">
                   <p className="text-2xl font-bold text-gray-900">{deal.arrivalTime}</p>
-                  <p className="text-gray-600">{deal.to}</p>
+                  <p className="text-gray-600">{deal.to} {cityToCountry[deal.to]}</p>
                 </div>
               </div>
             </div>
@@ -100,6 +104,36 @@ export function DealPage() {
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center mb-2">
+                  <Luggage className="h-5 w-5 text-gray-600 mr-2" />
+                  <h3 className="text-lg font-semibold text-gray-900">Baggage Allowance</h3>
+                </div>
+                <p className="text-gray-600">{deal.baggage}</p>
+              </div>
+
+              <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
+                <div className="flex items-start">
+                  <AlertCircle className="h-5 w-5 text-yellow-600 mr-2 mt-1" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Important Information</h3>
+                    <p className="text-gray-600">
+                      All information on this page is correct at the time of publication. Prices and availability may change.
+                      To ensure you never miss our deals again, sign up for DEAL ALERTS:
+                    </p>
+                    <ul className="mt-2 space-y-1 text-gray-600">
+                      <li>• Download our App on <a href="#" className="text-indigo-600 hover:text-indigo-500">Google Play</a> or <a href="#" className="text-indigo-600 hover:text-indigo-500">App Store</a></li>
+                      <li>• Opt for <a href="#" className="text-indigo-600 hover:text-indigo-500">email notifications</a></li>
+                      <li>• Join our <a href="#" className="text-indigo-600 hover:text-indigo-500">Telegram alerts</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 text-sm text-gray-500">
+                Deal found by {deal.foundBy} • Valid until {new Date(deal.validUntil).toLocaleDateString()}
               </div>
             </div>
 

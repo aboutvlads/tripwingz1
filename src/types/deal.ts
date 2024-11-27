@@ -13,4 +13,8 @@ export interface Deal {
   description: string;
   highlights: string[];
   stops: 'direct' | '1 stop';
+  foundBy: string;
+  validUntil: string;
+  baggage: string;
+  travelDates: string;
 }
